@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import { assets } from '../assets/assets';
+import { useAppContext } from '../Context/AppContext';
 
 const AddPass = () => {
     const [showForm, setShowForm] = useState(false);
-
+    const { token, password, setPassword, user} = useAppContext();
 
     return (
         <>
             <div className='flex justify-center items-center mt-8'>
-                <button onClick={() => setShowForm(true)} className=' bg-green-600 pt-2 items-center text-center w-16 rounded-md py-1.5 text-white'>Add</button>
+                <button onClick={() => setShowForm(true)} className=' bg-green-600 pt-2 items-center text-center w-16 rounded-md py-1.5 text-white hover:cursor-pointer'>Add</button>
             </div>
 
             {showForm && (
