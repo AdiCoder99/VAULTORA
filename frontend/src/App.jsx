@@ -5,21 +5,22 @@ import Manager from './components/Manager'
 import SearchPass from './components/SearchPass'
 import AddPass from './components/AddPass'
 import Login from '../Pages/Login'
+import { useAppContext } from './Context/AppContext'
 
 function App() {
   // const [count, setCount] = useState(0)
-  const [user, setUser] = useState(null)
-
+  const { user, setUser } = useAppContext();
+  
   return (
       <>
       {
         user ? (
-          <div>
+          <>
           <Navbar />
           <SearchPass />
           <AddPass />
           <Manager />
-          </div>
+          </>
         )
         :
         (

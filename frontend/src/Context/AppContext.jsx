@@ -31,9 +31,9 @@ export const AppContextProvider = ({children}) => {
 
     const getPasswords = async () => {
         try {
-            const { data } = await axios.get(process.env.URI + "/api/password", {
+            const { data } = await axios.get(import.meta.env.VITE_API_URL + "/api/password", {
                 headers : {
-                    token : `Bearer ${token}`
+                    Authorization : `Bearer ${token}`
                 }
             }
         )
@@ -49,13 +49,30 @@ export const AppContextProvider = ({children}) => {
         }
     }
 
-    
-    
+    useEffect(() => {
+        if(token){
+            localStorage.setItem('token', token)
+        }
+        else{
+            localStorage.removeItem('token')
+        }
+    }, [token])
+    useEffect(() => {
+        if(token){
+            fetchUser();
+        }
+    }, [token])
+
     const value = {
-        setToken
+        token,
+        setToken,
+        user,
+        setUser,
+        passwords,
+        setPasswords,
+        fetchUser,
+        getPasswords
     };
-
-
 
     return (
         

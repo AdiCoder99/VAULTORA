@@ -1,11 +1,42 @@
 import React, { useState } from 'react'
 import { assets } from '../assets/assets';
 import { useAppContext } from '../Context/AppContext';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const AddPass = () => {
     const [showForm, setShowForm] = useState(false);
     // const {  password, setPassword, user } = useAppContext();
-    
+    const [website, setWebsite] = useState(null);
+    const [username, setUsername] = useState(null);
+    const [password, setPassword] = useState(null);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const url = import.meta.env.VITE_API_URL + '/api/password/add'
+
+        try{
+            const {data} = axios.post(url, 
+                {website, username, password},
+                {headers : {
+                    Authorization: `Bearer ${token}`
+                }
+                }
+            )
+            if (data.success){
+                toast.success(data.message)
+            }
+            else{
+                toast.error(data.message)
+            }
+        }
+        catch(error){
+            toast.error(error)
+        }
+    }
+
+
+
     return (
         <>
             <div className='flex justify-center items-center mt-8'>
@@ -22,10 +53,11 @@ const AddPass = () => {
                         </div>
 
 
-                        <form action="" className='grid grid-cols-2 px-4 gap-6 mx-5 place-items-center mt-5'>
+                        <form onSubmit={(e) => handleSubmit(e)}  action="" className='grid grid-cols-2 px-4 gap-6 mx-5 place-items-center mt-5'>
                             <div className='flex flex-col'>
                             <label htmlFor="website">Website</label>
                             <input
+                            onChange={(e) => setWebsite(e.target.value)}
                                 type="text"
                                 id='website'
                                 placeholder='Website'
@@ -36,6 +68,7 @@ const AddPass = () => {
                             <div className='flex flex-col'>
                             <label htmlFor="username">Username</label>
                             <input
+                            onChange={(e) => setUsername(e.target.value)}
                                 type="text"
                                 name=""
                                 id="username"
@@ -47,6 +80,7 @@ const AddPass = () => {
                             <div className='flex flex-col col-span-2 items-center '>
                             <label htmlFor="password">Password</label>
                             <input
+                                onChange={(e) => setPassword(e.target.value)}
                                 type="text"
                                 name="password"
                                 id="password"
@@ -55,7 +89,8 @@ const AddPass = () => {
                             />
                             </div>
                             <div className='flex items-center justify-center col-span-2'>
-                            <button className='bg-green-600 px-2 py-1 rounded-md mt-5 text-white hover:cursor-pointer'>
+                            <button className='bg-green-600 px-2 py-1 rounded-md mt-5 text-white hover:cursor-pointer'
+                            type='submit'>
                                 Submit
                             </button>
                             </div>
