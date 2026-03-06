@@ -55,7 +55,7 @@ const Login = () => {
     <>
     {login ? (
         <div className='flex justify-center items-center mt-50'>
-        <form onSubmit={handleSubmit} className="bg-white text-gray-500 max-w-[350px] mx-4 md:p-6 p-4 text-left text-sm rounded-xl shadow-[0px_0px_10px_0px] shadow-black/10">
+        <form onSubmit={(e) => handleSubmit(e)} className="bg-white text-gray-500 max-w-[350px] mx-4 md:p-6 p-4 text-left text-sm rounded-xl shadow-[0px_0px_10px_0px] shadow-black/10">
             <h2 className="text-2xl font-semibold mb-6 text-center text-gray-800">Login Now</h2>
             <input id="email" onChange={(e) => setEmail(e.target.value)} className="w-full border my-3 border-gray-500/30 outline-none rounded-full py-2.5 px-4" type="email" placeholder="Enter your email" required />
 

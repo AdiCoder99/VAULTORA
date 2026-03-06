@@ -2,6 +2,8 @@ import Password from "../model/password.js"
 
 // Create a new password entry
 export const createPassword = async (req, res) => {
+    console.log(req.body);
+    
     try {
         const userId = req.user._id
         const { website, username, password } = req.body

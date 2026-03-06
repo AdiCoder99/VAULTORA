@@ -5,18 +5,20 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 
 const AddPass = () => {
+    const { token } = useAppContext();
     const [showForm, setShowForm] = useState(false);
     // const {  password, setPassword, user } = useAppContext();
-    const [website, setWebsite] = useState(null);
-    const [username, setUsername] = useState(null);
-    const [password, setPassword] = useState(null);
+    const [website, setWebsite] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const url = import.meta.env.VITE_API_URL + '/api/password/add'
+        console.log("Sending Data", website, username, password)
 
         try{
-            const {data} = axios.post(url, 
+            const {data} = await axios.post(url, 
                 {website, username, password},
                 {headers : {
                     Authorization: `Bearer ${token}`
@@ -31,9 +33,11 @@ const AddPass = () => {
             }
         }
         catch(error){
-            toast.error(error)
+            toast.error(error.message)
         }
     }
+
+    
 
 
 
@@ -53,7 +57,7 @@ const AddPass = () => {
                         </div>
 
 
-                        <form onSubmit={(e) => handleSubmit(e)}  action="" className='grid grid-cols-2 px-4 gap-6 mx-5 place-items-center mt-5'>
+                        <form onSubmit={(e) => {handleSubmit(e) , setShowForm(false)}}  action="" className='grid grid-cols-2 px-4 gap-6 mx-5 place-items-center mt-5'>
                             <div className='flex flex-col'>
                             <label htmlFor="website">Website</label>
                             <input
