@@ -4,19 +4,33 @@ import Navbar from './components/Navbar'
 import Manager from './components/Manager'
 import SearchPass from './components/SearchPass'
 import AddPass from './components/AddPass'
+import Login from '../Pages/Login'
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const [count, setCount] = useState(0)
+  const [user, setUser] = useState(null)
 
   return (
-    <div className='absolute inset-0 -z-10 h-full w-full bg-white bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]'>
-    <Navbar/>
-    <SearchPass />
-    <AddPass/>
-    <Manager/>
-    </div>
+      <>
+      {
+        user ? (
+          <div>
+          <Navbar />
+          <SearchPass />
+          <AddPass />
+          <Manager />
+          </div>
+        )
+        :
+        (
+          <Login/>
+        )
+      }
+      </>
+    
   )
 }
+
 
 export default App
 

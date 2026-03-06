@@ -4,8 +4,8 @@ import { useAppContext } from '../Context/AppContext';
 
 const AddPass = () => {
     const [showForm, setShowForm] = useState(false);
-    const { token, password, setPassword, user} = useAppContext();
-
+    // const {  password, setPassword, user } = useAppContext();
+    
     return (
         <>
             <div className='flex justify-center items-center mt-8'>
