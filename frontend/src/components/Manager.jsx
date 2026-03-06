@@ -1,16 +1,16 @@
 import React from 'react'
 import { useState } from 'react'
 import { assets } from '../assets/assets.js'
+import { useAppContext } from '../Context/AppContext.jsx'
 
 const Manager = () => {
-    const [passwords, setPasswords] = useState([{
-        id: 1,
-        site: "Github",
-        username: "adi123",
-        password: "mypassword123",
-    },
-])
+    const { passwords, setPassdelete } = useAppContext();
 
+    const handleDelete = (id) =>{
+        // e.preventDefault();
+        setPassdelete(id)
+
+    }
 
     return (
         <div className='flex items-center justify-center mt-10'>
@@ -26,15 +26,15 @@ const Manager = () => {
                 </thead>
 
                 <tbody>
-                    {passwords.map((items) => (
-                        <tr key={items.id} className='text-center'>
-                            <td className='border border-gray-400 px-4 py-2'>{items.id}</td>
-                            <td className="border border-gray-400 px-4 py-2">{items.site}</td>
+                    {passwords?.map((items) => (
+                        <tr key={items._id} className='text-center'>
+                            <td className='border border-gray-400 px-4 py-2'>{items._id}</td>
+                            <td className="border border-gray-400 px-4 py-2">{items.website}</td>
                             <td className="border border-gray-400 px-4 py-2">{items.username}</td>
                             <td className="border border-gray-400 px-4 py-2">{items.password}</td>
                             <td className="border border-gray-400 px-4 py-2 w-50  justify-between">
                                 <div className='flex justify-between'>
-                                <span><img src={assets.delete_icon} alt="" className="w-5 h-5" /></span>
+                                <span><img onClick={() => handleDelete(items._id)} src={assets.delete_icon} alt="" className="w-5 h-5 cursor-pointer" /></span>
                                 <span><img src={assets.edit_icon} alt="" className="w-5 h-5" /></span>
                                 </div>
                             </td>

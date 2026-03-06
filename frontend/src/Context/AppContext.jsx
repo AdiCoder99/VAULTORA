@@ -6,8 +6,14 @@ const AppContext = createContext();
 
 export const AppContextProvider = ({children}) => {
     const [user, setUser] = useState(null);
-    const [passwords, setPasswords] = useState([])
+    // const [passwords, setPasswords] = useState([])
     const [token, setToken] = useState(localStorage.getItem('token') || null)
+
+    const [passwords, setPasswords] = useState([])
+    const [passdelete, setPassdelete] = useState("")
+
+
+
 
     const fetchUser = async () => {
         try{
@@ -31,14 +37,14 @@ export const AppContextProvider = ({children}) => {
 
     const getPasswords = async () => {
         try {
-            const { data } = await axios.get(import.meta.env.VITE_API_URL + "/api/password", {
+            const { data } = await axios.get(import.meta.env.VITE_API_URL + "/api/password/all", {
                 headers : {
                     Authorization : `Bearer ${token}`
                 }
             }
         )
         if(data.success){
-            setPasswords(data.passwords)
+            setPasswords(data.data)
         }
         else{
             toast.error("Failed to fetch passwords")
@@ -46,6 +52,28 @@ export const AppContextProvider = ({children}) => {
         }
         catch(error){
             console.log(error)
+        }
+    }
+
+    const deletePassword = () => {
+        try{
+            const {data } = axios.delete(import.meta.env.VITE_API_URL+`/api/password/${passdelete}`,
+                {headers :{
+                    Authorization : `Bearer ${token}`
+                }
+            }
+            )
+
+            if(data.success){
+                toast.success(data.message)
+                setPasswords(prev => prev.filter(p => p.id !== passdelete))
+            }
+            else{
+                toast.error(data.message)
+            }
+        }
+        catch(error){
+            toast.error(error.message)
         }
     }
 
@@ -57,11 +85,27 @@ export const AppContextProvider = ({children}) => {
             localStorage.removeItem('token')
         }
     }, [token])
+
+
     useEffect(() => {
         if(token){
             fetchUser();
         }
     }, [token])
+
+    useEffect(() => {
+        if(token){
+            getPasswords()
+        }
+    }, [token ])
+
+    useEffect(() => {
+        if(passdelete){
+            deletePassword();
+            getPasswords()
+        }
+    }, [passdelete])
+    
 
     const value = {
         token,
@@ -71,7 +115,8 @@ export const AppContextProvider = ({children}) => {
         passwords,
         setPasswords,
         fetchUser,
-        getPasswords
+        getPasswords,
+        setPassdelete
     };
 
     return (

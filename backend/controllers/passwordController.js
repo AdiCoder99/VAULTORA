@@ -29,7 +29,7 @@ export const createPassword = async (req, res) => {
     }
 }
 
-// Get all passwords for a user
+// Get all passwords for a user 
 export const getAllPasswords = async (req, res) => {
     try {
         const userId = req.user._id
