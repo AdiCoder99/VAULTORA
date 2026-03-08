@@ -12,7 +12,7 @@ function App() {
   const { user, setUser } = useAppContext();
   
   return (
-      <>
+      <div>
       {
         user ? (
           <>
@@ -27,7 +27,7 @@ function App() {
           <Login/>
         )
       }
-      </>
+      </div>
     
   )
 }

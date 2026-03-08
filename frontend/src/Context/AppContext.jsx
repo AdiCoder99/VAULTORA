@@ -35,6 +35,7 @@ export const AppContextProvider = ({children}) => {
                 }
     }
 
+    // Fetch Passwords
     const getPasswords = async () => {
         try {
             const { data } = await axios.get(import.meta.env.VITE_API_URL + "/api/password/all", {
@@ -55,6 +56,7 @@ export const AppContextProvider = ({children}) => {
         }
     }
 
+    // Delete Password
     const deletePassword = () => {
         try{
             const {data } = axios.delete(import.meta.env.VITE_API_URL+`/api/password/${passdelete}`,
@@ -70,6 +72,26 @@ export const AppContextProvider = ({children}) => {
             }
             else{
                 toast.error(data.message)
+            }
+        }
+        catch(error){
+            toast.error(error.message)
+        }
+    }
+
+    // Search Passwords
+    const searchPasswords = async(query) => {
+        try{
+            const { data } = await axios.get(import.meta.env.VITE_API_URL + `/api/password/search?query=${query}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            if(data.success){
+                setPasswords(data.data) 
+            }
+            else{
+                toast.error("Failed to search passwords")
             }
         }
         catch(error){
@@ -116,6 +138,7 @@ export const AppContextProvider = ({children}) => {
         setPasswords,
         fetchUser,
         getPasswords,
+        searchPasswords,
         setPassdelete
     };
 
