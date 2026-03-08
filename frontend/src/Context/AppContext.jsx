@@ -12,6 +12,8 @@ export const AppContextProvider = ({children}) => {
     const [passwords, setPasswords] = useState([])
     const [passdelete, setPassdelete] = useState("")
 
+    const [loading, setLoading] = useState(false);
+
 
 
 
@@ -59,6 +61,7 @@ export const AppContextProvider = ({children}) => {
     // Delete Password
     const deletePassword = () => {
         try{
+            setLoading(true)
             const {data } = axios.delete(import.meta.env.VITE_API_URL+`/api/password/${passdelete}`,
                 {headers :{
                     Authorization : `Bearer ${token}`
@@ -77,11 +80,15 @@ export const AppContextProvider = ({children}) => {
         catch(error){
             toast.error(error.message)
         }
+        finally{
+            setLoading(false)
+        }
     }
 
     // Search Passwords
     const searchPasswords = async(query) => {
         try{
+            setLoading(true)
             const { data } = await axios.get(import.meta.env.VITE_API_URL + `/api/password/search?query=${query}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -96,6 +103,9 @@ export const AppContextProvider = ({children}) => {
         }
         catch(error){
             toast.error(error.message)
+        }
+        finally{
+            setLoading(false)
         }
     }
 
@@ -139,7 +149,9 @@ export const AppContextProvider = ({children}) => {
         fetchUser,
         getPasswords,
         searchPasswords,
-        setPassdelete
+        setPassdelete,
+        loading,
+        setLoading
     };
 
     return (

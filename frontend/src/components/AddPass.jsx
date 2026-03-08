@@ -5,7 +5,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 
 const AddPass = () => {
-    const { token } = useAppContext();
+    const { token, setLoading } = useAppContext();
     const [showForm, setShowForm] = useState(false);
     // const {  password, setPassword, user } = useAppContext();
     const [website, setWebsite] = useState("");
@@ -19,6 +19,7 @@ const AddPass = () => {
         console.log("Sending Data", website, username, password)
 
         try{
+            setLoading(true)
             const {data} = await axios.post(url, 
                 {website, username, password},
                 {headers : {
@@ -35,6 +36,9 @@ const AddPass = () => {
         }
         catch(error){
             toast.error(error.message)
+        }
+        finally{
+            setLoading(false)
         }
     }
 
