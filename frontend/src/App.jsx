@@ -9,8 +9,12 @@ import { useAppContext } from './Context/AppContext'
 import Loading from '../Pages/Loading'
 
 function App() {
-  const { user, loading } = useAppContext();
+  const { user, loading, authLoading } = useAppContext();
   
+  if(authLoading){
+    return (<Loading />)
+  }
+
   return (
     <>
     <div className='relative h-screen w-screen bg-white'>

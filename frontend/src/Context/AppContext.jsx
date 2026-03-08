@@ -14,11 +14,17 @@ export const AppContextProvider = ({children}) => {
 
     const [loading, setLoading] = useState(false);
 
+    const [authLoading, setAuthLoading] = useState(true);
+
 
 
 
     const fetchUser = async () => {
         try{
+            if(!token){
+                setAuthLoading(false);
+                return;
+            }
             const { data } = await  axios.get(import.meta.env.VITE_API_URL + "/api/user/me", {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -34,7 +40,10 @@ export const AppContextProvider = ({children}) => {
         }
         catch(error){
             console.log(error)
-                }
+        }
+        finally{
+            setAuthLoading(false)
+        }
     }
 
     // Fetch Passwords
@@ -120,10 +129,8 @@ export const AppContextProvider = ({children}) => {
 
 
     useEffect(() => {
-        if(token){
-            fetchUser();
-        }
-    }, [token])
+        fetchUser();
+    }, [])
 
     useEffect(() => {
         if(token){
@@ -151,7 +158,8 @@ export const AppContextProvider = ({children}) => {
         searchPasswords,
         setPassdelete,
         loading,
-        setLoading
+        setLoading,
+        authLoading
     };
 
     return (
