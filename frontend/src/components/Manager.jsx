@@ -5,6 +5,7 @@ import { useAppContext } from '../Context/AppContext.jsx'
 
 const Manager = () => {
     const { passwords, setPassdelete } = useAppContext();
+    const { count, setCount } = useState(0);
 
     const handleDelete = (id) =>{
         // e.preventDefault();
@@ -26,9 +27,9 @@ const Manager = () => {
                 </thead>
 
                 <tbody>
-                    {passwords?.map((items) => (
+                    {passwords?.map((items, index) => (
                         <tr key={items._id} className='text-center'>
-                            <td className='border border-gray-400 px-4 py-2'>{items._id}</td>
+                            <td className='border border-gray-400 px-4 py-2'>{index+1}</td>
                             <td className="border border-gray-400 px-4 py-2">{items.website}</td>
                             <td className="border border-gray-400 px-4 py-2">{items.username}</td>
                             <td className="border border-gray-400 px-4 py-2">{items.password}</td>

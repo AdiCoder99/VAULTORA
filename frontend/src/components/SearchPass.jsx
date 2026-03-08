@@ -1,9 +1,13 @@
 import React from 'react'
 
 const SearchPass = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+  }
   return (
     <div className='flex justify-center items-center mt-10 mx-auto text-white'>
-      <form action="" className=' flex justify-center items-center w-full gap-2 text-black'>
+      <form onSubmit={handleSubmit} action="" className=' flex justify-center items-center w-full gap-2 text-black'>
         <input 
         type="text" 
         placeholder='Search passwords...'
